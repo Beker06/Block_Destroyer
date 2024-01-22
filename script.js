@@ -215,7 +215,7 @@ document.addEventListener("touchmove", (evt) => {
         const newTouchX = evt.touches[0].clientX;
         const deltaX = newTouchX - touchX;
 
-        const touchVelocity = deltaX * 0.75;
+        const touchVelocity = deltaX * 0.1;
 
         player.position.x += touchVelocity;
 

@@ -72,6 +72,7 @@ a{
 @media screen and (max-width: 560px){
     body{
         background-image: none;
+        background-color: #141414;
     }
     h1{
         text-align: center;
