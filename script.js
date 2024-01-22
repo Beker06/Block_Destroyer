@@ -5,8 +5,7 @@ const button = document.querySelector(".button");
 const scoreSpan = document.querySelector(".score");
 let animationId;
 let score = 0;
-canvas.width = 900;
-canvas.height = 500;
+
 const deathSound = new Audio("sounds/death.mp3");
 const shotSound = new Audio("sounds/shot.mp3");
 const play = (sound, volume = 1) => {
@@ -17,6 +16,15 @@ const play = (sound, volume = 1) => {
 deathSound.preload = 'auto';
 shotSound.preload = 'auto';
 
+function adjustCanvasSize() {
+    if (window.innerWidth < 460) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    } else {
+        canvas.width = 900;
+        canvas.height = 500; 
+    }
+}
 class Particle{
     constructor(side,position,color,velocity){
         this.side = side;
@@ -69,6 +77,9 @@ class Enemy{
         this.position.x += this.velocity;
         if(this.position.x + this.size.width > canvas.width){
             this.position.x = canvas.width - this.size.width;
+            this.velocity *= -1;
+        }
+        if(this.position.x == 0 ){
             this.velocity *= -1;
         }
         this.frame++;
@@ -182,11 +193,22 @@ class Player{
     }
 }
 
-const player = new Player({x:200,y:480},{width:60,height:20}, "#3E7C17", 7);
+const player = new Player({x:200,y:680},{width:60,height:20}, "#3E7C17", 7);
 const enemys = [];
 const particles = [];
 const projectilesEnemys = [];
 
+window.addEventListener('resize', () => {
+    adjustCanvasSize();
+
+});
+// document.addEventListener("touchstart", (evt) => {
+//     const touchX = evt.touches[0].clientX;
+//     const touchY = evt.touches[0].clientY;
+    
+//     player.position.x = touchX - player.size.width / 2;
+//     player.position.y = touchY - player.size.height / 2;
+// });
 
 function createEnemys(color){
     let enemy = new Enemy(
@@ -239,7 +261,13 @@ button.addEventListener("click", ()=>{
     scoreSpan.innerHTML = score;
 
     menu.style.display = "none";
-    player.position = {x:200, y:400};
+    
+    if (window.innerWidth < 460){
+        player.position = {x:200, y:window.innerHeight*0.6}
+    }else{
+        player.position = {x:200, y:400}; 
+    }
+    
     initEnemys();
     update();
 });
@@ -317,4 +345,5 @@ function restart(){
     menu.style.display = "flex";
 }
 
+adjustCanvasSize();
 restart();

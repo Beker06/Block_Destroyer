@@ -22,8 +22,9 @@ h1{
     color: aliceblue;
 }
 
-u{
+a{
     cursor: pointer;
+    text-decoration: underline;
 }
 .container{
     position: relative;
@@ -58,4 +59,13 @@ u{
 }
 .container .menu .button:hover{
     padding: 8px 40px;
+}
+
+@media screen and (max-width: 460px){
+    body {
+        overflow: hidden;
+    }
+    h1{
+        text-align: center;
+    }
 }
