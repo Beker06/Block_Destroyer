@@ -5,16 +5,14 @@ const button = document.querySelector(".button");
 const scoreSpan = document.querySelector(".score");
 let animationId;
 let score = 0;
-
+let autoFireInterval;
 const deathSound = new Audio("sounds/death.mp3");
-const shotSound = new Audio("sounds/shot.mp3");
 const play = (sound, volume = 1) => {
     sound.currentTime = 0;
     sound.volume = volume;
     sound.play();
 };
 deathSound.preload = 'auto';
-shotSound.preload = 'auto';
 
 function adjustCanvasSize() {
     if (window.innerWidth < 460) {
@@ -55,7 +53,11 @@ class Enemy{
         this.maxFrame = Math.floor(Math.random()*41)+40;
     }
     shoot(projectiles){
+        let shotVelocity = 8;
         if(this.frame > this.maxFrame){
+            if (window.innerWidth < 460) {
+                shotVelocity = 10
+            }
             let projectile = new Projectile(
                 {
                     x:(this.position.x+this.size.width/2)-5,
@@ -66,7 +68,8 @@ class Enemy{
                     height:20
                 },
                 this.color,
-                8
+                shotVelocity
+                
             );
             projectiles.push(projectile);
             this.frame = 0;
@@ -168,7 +171,6 @@ class Player{
                 this.keys.right = true;
             }
             if (evt.key == "ArrowUp" && this.keys.shoot) {
-                play(shotSound, 0.3);
                 let projectile = new Projectile(
                     { x: (this.position.x + this.size.width / 2) - 5, y: this.position.y },
                     { width: 10, height: 20 },
@@ -197,17 +199,14 @@ const player = new Player({x:200,y:680},{width:60,height:20}, "#3E7C17", 7);
 const enemys = [];
 const particles = [];
 const projectilesEnemys = [];
+let touchX = null;
 
 window.addEventListener('resize', () => {
     adjustCanvasSize();
-
 });
-let touchX = null;
-
 document.addEventListener("touchstart", (evt) => {
     touchX = evt.touches[0].clientX;
 });
-
 document.addEventListener("touchmove", (evt) => {
     if (touchX !== null) {
         const newTouchX = evt.touches[0].clientX;
@@ -229,12 +228,36 @@ document.addEventListener("touchmove", (evt) => {
 document.addEventListener("touchend", () => {
     touchX = null;
 });
+function startAutoFire() {
+    autoFireInterval = setInterval(() => {
 
+        let projectile = new Projectile(
+            { x: (player.position.x + player.size.width / 2) - 5, y: player.position.y },
+            { width: 10, height: 20 },
+            player.color,
+            -8
+        );
+        player.projectiles.push(projectile);
+    }, 400);
+}
+function stopAutoFire() {
+    clearInterval(autoFireInterval);
+}
+function enableAutoFire() {
+    startAutoFire();
+}
+function disableAutoFire() {
+    stopAutoFire();
+}
 function createEnemys(color){
+    let maxHeight = 201;
+    if(window.innerWidth < 460){
+        maxHeight = window.innerHeight*0.4;
+    }
     let enemy = new Enemy(
         {
             x:Math.floor(Math.random() * (canvas.width-61)),
-            y:Math.floor(Math.random() * (201))
+            y:Math.floor(Math.random() * (maxHeight))
         },
         {width:60, height:20},
         color,
@@ -275,6 +298,7 @@ function gameOver(){
     particles.length = 0;
     player.projectiles.length = 0;
     menu.style.display = "flex";
+
 }
 button.addEventListener("click", ()=>{
     score = 0;
@@ -283,7 +307,8 @@ button.addEventListener("click", ()=>{
     menu.style.display = "none";
     
     if (window.innerWidth < 460){
-        player.position = {x:200, y:window.innerHeight*0.6}
+        player.position = {x:200, y:window.innerHeight*0.8}
+        enableAutoFire()
     }else{
         player.position = {x:200, y:400}; 
     }
@@ -338,9 +363,10 @@ function updateObjects(){
             player.position.x = -50;
             player.position.y = -50;
             setTimeout(()=>{
+                disableAutoFire()
                 cancelAnimationFrame(animationId);
                 gameOver();
-            },2000);
+            },200);
         }
     }
 }
