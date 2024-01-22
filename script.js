@@ -59,7 +59,7 @@ class Enemy{
         let shotVelocity = 8;
         if(this.frame > this.maxFrame){
             if (window.innerWidth < 560) {
-                shotVelocity = 10
+                shotVelocity = 8
             }
             let projectile = new Projectile(
                 {
@@ -85,7 +85,7 @@ class Enemy{
             this.position.x = canvas.width - this.size.width;
             this.velocity *= -1;
         }
-        if(this.position.x == 0 ){
+        if(this.position.x <= 0 ){
             this.velocity *= -1;
         }
         this.frame++;

@@ -84,6 +84,7 @@ a{
     }
     .container .instruction{
         justify-content: center;
+        box-shadow: none;
     }
     .container .instruction span{
         display: none;
