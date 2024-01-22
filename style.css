@@ -7,7 +7,7 @@
     box-sizing: border-box;
 }
 body{
-    background-image: url(https://p4.wallpaperbetter.com/wallpaper/467/56/995/aircraft-military-airplane-war-wallpaper-preview.jpg);
+    background-image: url(https://get.wallhere.com/photo/vehicle-airplane-aircraft-science-fiction-military-aircraft-air-force-Flight-aviation-screenshot-atmosphere-of-earth-fighter-aircraft-aircraft-engine-60354.jpg);
     width: 100%;
     height: 100vh;
     display: flex;
@@ -15,7 +15,8 @@ body{
     justify-content: center;
     align-items: center;
     object-fit: cover;
-    background-repeat: round;
+    background-repeat: no-repeat;
+    overflow: hidden;
 }
 h1{
     font-size: 5rem;
@@ -60,11 +61,15 @@ a{
 .container .menu .button:hover{
     padding: 8px 40px;
 }
+.container .instruction{
+    position: absolute;
+    width: 95%;
+    display: flex;
+    bottom: 0.5rem;
+    justify-content: space-between;
+}
 
 @media screen and (max-width: 560px){
-    body {
-        overflow: hidden;
-    }
     h1{
         text-align: center;
         font-size: 4rem;
@@ -72,5 +77,12 @@ a{
         letter-spacing: -2px;
         margin-bottom: 1rem;
     }
+    .container .instruction{
+        justify-content: center;
+    }
+    .container .instruction span{
+        display: none;
+    }
+
 
 }

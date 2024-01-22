@@ -1,6 +1,7 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
 const menu = document.querySelector(".menu");
+const instruction = document.querySelector(".instruction");
 const button = document.querySelector(".button");
 const scoreSpan = document.querySelector(".score");
 let animationId;
@@ -18,10 +19,12 @@ function adjustCanvasSize() {
     if (window.innerWidth < 560) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-    } else {
+    }else {
         canvas.width = 900;
-        canvas.height = 500; 
+        canvas.height = 500;
     }
+    ctx.fillStyle = "#141414";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
 }
 class Particle{
     constructor(side,position,color,velocity){
@@ -298,6 +301,7 @@ function gameOver(){
     particles.length = 0;
     player.projectiles.length = 0;
     menu.style.display = "flex";
+    instruction.style.display = "flex";
 
 }
 button.addEventListener("click", ()=>{
@@ -305,6 +309,7 @@ button.addEventListener("click", ()=>{
     scoreSpan.innerHTML = score;
 
     menu.style.display = "none";
+    instruction.style.display = "none";
     
     if (window.innerWidth < 560){
         player.position = {x:200, y:window.innerHeight*0.8}
@@ -389,6 +394,7 @@ function restart(){
     particles.length = 0;
     player.projectiles.length = 0;
     menu.style.display = "flex";
+    instructions.style.display = "flex";
 }
 
 adjustCanvasSize();
