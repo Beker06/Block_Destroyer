@@ -70,6 +70,9 @@ a{
 }
 
 @media screen and (max-width: 560px){
+    body{
+        background-image: none;
+    }
     h1{
         text-align: center;
         font-size: 4rem;
