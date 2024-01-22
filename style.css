@@ -61,7 +61,7 @@ a{
     padding: 8px 40px;
 }
 
-@media screen and (max-width: 460px){
+@media screen and (max-width: 560px){
     body {
         overflow: hidden;
     }
