@@ -67,5 +67,10 @@ a{
     }
     h1{
         text-align: center;
+        font-size: 4rem;
+        line-height: 3rem;
+        letter-spacing: -2px;
+        margin-bottom: 1rem;
     }
+
 }

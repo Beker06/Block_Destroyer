@@ -202,13 +202,33 @@ window.addEventListener('resize', () => {
     adjustCanvasSize();
 
 });
-// document.addEventListener("touchstart", (evt) => {
-//     const touchX = evt.touches[0].clientX;
-//     const touchY = evt.touches[0].clientY;
-    
-//     player.position.x = touchX - player.size.width / 2;
-//     player.position.y = touchY - player.size.height / 2;
-// });
+let touchX = null;
+
+document.addEventListener("touchstart", (evt) => {
+    touchX = evt.touches[0].clientX;
+});
+
+document.addEventListener("touchmove", (evt) => {
+    if (touchX !== null) {
+        const newTouchX = evt.touches[0].clientX;
+        const deltaX = newTouchX - touchX;
+
+        const touchVelocity = deltaX * 0.75;
+
+        player.position.x += touchVelocity;
+
+        if (player.position.x < 0) {
+            player.position.x = 0;
+        } else if (player.position.x + player.size.width > canvas.width) {
+            player.position.x = canvas.width - player.size.width;
+        }
+
+        touchX = newTouchX;
+    }
+});
+document.addEventListener("touchend", () => {
+    touchX = null;
+});
 
 function createEnemys(color){
     let enemy = new Enemy(
