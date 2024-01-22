@@ -15,7 +15,7 @@ const play = (sound, volume = 1) => {
 deathSound.preload = 'auto';
 
 function adjustCanvasSize() {
-    if (window.innerWidth < 460) {
+    if (window.innerWidth < 560) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     } else {
@@ -55,7 +55,7 @@ class Enemy{
     shoot(projectiles){
         let shotVelocity = 8;
         if(this.frame > this.maxFrame){
-            if (window.innerWidth < 460) {
+            if (window.innerWidth < 560) {
                 shotVelocity = 10
             }
             let projectile = new Projectile(
@@ -251,7 +251,7 @@ function disableAutoFire() {
 }
 function createEnemys(color){
     let maxHeight = 201;
-    if(window.innerWidth < 460){
+    if(window.innerWidth < 560){
         maxHeight = window.innerHeight*0.4;
     }
     let enemy = new Enemy(
@@ -306,7 +306,7 @@ button.addEventListener("click", ()=>{
 
     menu.style.display = "none";
     
-    if (window.innerWidth < 460){
+    if (window.innerWidth < 560){
         player.position = {x:200, y:window.innerHeight*0.8}
         enableAutoFire()
     }else{
